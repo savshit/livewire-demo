@@ -1,0 +1,14 @@
+Instruction to setup project:
+----
+Step 1: on root execute this command : composer install
+Step 2: Create .env file and setup database configuration
+Step 3: Execute command : php artisan migrate
+Step 4: Execute command : php artisan db:seed
+Step 5: Run project in local : php artisan serve
+
+Step 6: Open new tab of terminal and execute command : npm install
+Step 7: Then execute command to run livewire: nmp run dev
+
+Visit laravel url for example in local : 127.0.0.1:8000
+Note: if port is different in your case then use accordingly.
+
