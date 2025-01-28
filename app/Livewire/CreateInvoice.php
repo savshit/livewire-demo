@@ -66,19 +66,46 @@ class CreateInvoice extends Component
     public function createInvoice()
     {
         $validatedData = $this->validate([
-            'amount' => 'required|numeric|min:0',
-            'invoice_number' => 'required|unique:invoices,invoice_number',
-            'customer_email' => 'required|email',
-            'status' => 'required|in:Draft,Outstanding,Paid'
+            'amount' => [
+                'required',
+                'numeric',
+                'decimal:0,2',      
+                'min:0.01',       
+                'max:99999999.99'  
+            ],
+            'invoice_number' => [
+                'required',
+                'string',
+                'max:255',           
+                'unique:invoices,invoice_number'
+            ],
+            'customer_email' => [
+                'required',
+                'string',
+                'email:rfc,dns',
+                'max:255'         
+            ],
+            'status' => [
+                'required',
+                'in:Draft,Outstanding,Paid' 
+            ]
         ], [
             'amount.required' => 'Amount is required',
             'amount.numeric' => 'Amount must be a number',
-            'amount.min' => 'Amount must be positive',
+            'amount.decimal' => 'Amount can only have up to 2 decimal places',
+            'amount.min' => 'Amount must be at least 0.01',
+            'amount.max' => 'Amount cannot exceed 99,999,999.99',
+
             'invoice_number.required' => 'Invoice number is required',
-            'invoice_number.unique' => 'Invoice number must be unique',
+            'invoice_number.max' => 'Invoice number cannot exceed 255 characters',
+            'invoice_number.unique' => 'This invoice number is already in use',
+
             'customer_email.required' => 'Customer email is required',
-            'customer_email.email' => 'Invalid email format',
-            'status.required' => 'Status is required'
+            'customer_email.email' => 'Please enter a valid email address',
+            'customer_email.max' => 'Email cannot exceed 255 characters',
+
+            'status.required' => 'Status is required',
+            'status.in' => 'Status must be Draft, Outstanding, or Paid',
         ]);
 
         $invoice = Invoice::create([
@@ -88,10 +115,7 @@ class CreateInvoice extends Component
             'status' => $this->status,
         ]);
 
-        // Emit event to refresh invoices list
         $this->dispatch('invoice-created');
-
-        // Reset form
         $this->reset(['amount', 'invoice_number', 'customer_email', 'status']);
         $this->isModalOpen = false;
     }
