@@ -206,6 +206,8 @@ class InvoiceDashboard extends Component
         $newInvoice = $invoice->replicate();
         $newInvoice->invoice_number = 'Copy-' . rand(1000, 9999) . '-' . $invoice->invoice_number;
         $newInvoice->save();
+
+        $this->dispatch('close-dropdown');
     }
 
     /**
