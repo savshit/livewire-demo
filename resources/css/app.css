@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+ .ct-invoices-table-row tr:nth-last-of-type(4) ~ tr .ct-dropdown-l {
+    @apply top-[inherit] bottom-[42px]
+}
+
+.ct-invoices-table-row tr:nth-child(1) .ct-dropdown-l,
+.ct-invoices-table-row tr:nth-child(2) .ct-dropdown-l,
+.ct-invoices-table-row tr:nth-child(3) .ct-dropdown-l,
+.ct-invoices-table-row tr:nth-child(4) .ct-dropdown-l{
+    @apply !top-[33px] !bottom-[inherit]
+}
